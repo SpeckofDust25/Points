@@ -1,5 +1,6 @@
 #pragma once
 #include "Window.h"
+#include "Grid.h"
 
 //File
 #define ID_NEW 1
@@ -29,8 +30,24 @@ namespace Orange {
 		PointWindow(std::wstring _title, std::wstring _class_name, HINSTANCE _h_instance, int _n_cmd_show);
 		//~PointWindow();
 		LRESULT HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+		Grid grid;
 
 	private:
-		void SetupMenu();
+		void SetupMenu(HWND hwnd);	//Called Before the Window gets created: Needs Window Handle to be passed
+
+		//Registers Commands
+		void RegisterCommands(WPARAM wParam);
+
+		//User Commands
+		void NewProject();
+		void OpenFile();
+		void SaveFile();
+		void SaveFileAs();
+		void Undo();
+		void Redo();
+		void Cut();
+		void Copy();
+		void Paste();
+		void Exit();
 	};
 }

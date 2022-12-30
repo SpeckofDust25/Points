@@ -2,6 +2,8 @@
 #include <functional>
 
 namespace Orange {
+
+    //Static Window
     Window* Window::w_main = nullptr;
 
     //Constructor and Destructor
@@ -109,7 +111,7 @@ namespace Orange {
             temp_hwnd = w_parent_hwnd;
         }
 
-        HWND w_hwnd = CreateWindowEx(
+        w_hwnd = CreateWindowEx(
             WS_EX_OVERLAPPEDWINDOW,
             w_class_name.c_str(),
             w_title.c_str(),
@@ -117,7 +119,7 @@ namespace Orange {
             w_width, w_height,
             start_x, start_y,
             temp_hwnd,
-            w_hmenu_bar,
+            NULL,
             w_cex.hInstance,
             w_state);
 
@@ -155,9 +157,9 @@ namespace Orange {
         SetWindowTextW(w_hwnd, newTitle);
     }
 
-    void Window::SetBackgroundColor(Color color) {
+    void Window::SetBackgroundColor(COLORREF color) {
         PAINTSTRUCT ps;
-        w_background_color = (HBRUSH)CreateSolidBrush(RGB(color.GetR(), color.GetG(), color.GetB()));
+        w_background_color = (HBRUSH)CreateSolidBrush(color);
         InvalidateRect(w_hwnd, &ps.rcPaint, true);
         UpdateWindow(w_hwnd);
     }

@@ -2,7 +2,6 @@
 #include <Windows.h>
 #include <string>
 #include <tchar.h>
-#include "Color.h"
 
 namespace Orange {
 	struct StateInfo;	//Forward Declaration
@@ -15,8 +14,8 @@ namespace Orange {
 		static Window* w_main;
 
 	protected:	//Member Variables
-		HMENU w_hmenu_bar;
-		bool exit = false;
+		HMENU w_hmenu_bar;			//Window Menu Bar: Optional
+		bool exit = false;			//Has the Window been closed
 		bool is_main_window = false;//Main Window? Close this window and it quits the program
 		HBRUSH w_background_color;	//Background Color
 		int w_cmd_show;				//Startup Info: Command Line Arguments
@@ -36,7 +35,7 @@ namespace Orange {
 	public:		//Individual Window Procedure
 		virtual LRESULT HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
 
-	private:	//Window Procedure
+	private:	//Window Procedure: Window Handle, Message Code (Identify what type of message), wParam and lParam give extra data that pertain to the message 
 		static LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 		//Window Setup
@@ -51,7 +50,7 @@ namespace Orange {
 
 		//Setters
 		void SetTitle(LPCWSTR _title);
-		void SetBackgroundColor(Color color);
+		void SetBackgroundColor(COLORREF color);
 		bool GetExit();
 	};
 
