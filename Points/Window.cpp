@@ -52,28 +52,85 @@ namespace Orange {
         InstanceWindow(_start_x, _start_y);
     }
 
+    //TODO: GET THE WINDOW WIDTH AND HEIGHT VALUES
+    //TODO: HOOK UP GRID TO THE WIDTH AND HEIGHT VALUES 
+
     //Window Procedure
     LRESULT CALLBACK Window::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         StateInfo* pThis = NULL;
+        LRESULT result = 1;
 
-        if (uMsg == WM_CREATE) {
-            UpdateWindow(hwnd);
-            CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
-            pThis = reinterpret_cast<StateInfo*>(pCreate->lpCreateParams);
-            SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pThis);
-        }
-        else {
+        if (uMsg != WM_CREATE) {    //Gives us Access to the current window
             pThis = reinterpret_cast<StateInfo*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
         }
 
-        if (pThis) {
-            return pThis->window->HandleMessage(hwnd, uMsg, wParam, lParam);
+        //Handle Window Messages
+        switch (uMsg) {
+            case WM_CREATE:
+            {
+                UpdateWindow(hwnd);
+                CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;                  //Contains info about the creation of the window
+                pThis = reinterpret_cast<StateInfo*>(pCreate->lpCreateParams);  //Casting lpCreateParams to type StateInfo: The struct we passed to the window when we called CreateWindowEx
+                SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pThis);     //Setting a Pointer to our StateInfo struct
+                pThis->window->WindowMessage(hwnd, uMsg, wParam, lParam);   //Window Backend Message Handling
+                result = pThis->window->OnCreate(hwnd, wParam, lParam);     //PointWindow Message Handling
+                break;
+            }
+            
+            
+            case WM_INPUT:
+            {
+                result = pThis->window->OnInput(hwnd, uMsg, wParam, lParam);
+                break;
+            }
+
+            case WM_COMMAND:
+            {
+                result = pThis->window->OnCommand(hwnd, wParam, lParam);
+                break;
+            }
+
+            case WM_PAINT:
+            {
+                result = pThis->window->OnPaint(hwnd, wParam, lParam);
+                break;
+            }
+
+            case WM_SIZE:
+            {
+                pThis->window->w_width = LOWORD(lParam);
+                pThis->window->w_height = HIWORD(lParam);
+                pThis->window->OnSize(hwnd, wParam, lParam);
+                break;
+            }
+
+            case WM_DESTROY:
+            {
+                result = pThis->window->OnDestory(hwnd, wParam, lParam);
+                break;
+            }
         }
-        else {
+
+        if (result) {   //Didn't Handle the Message
             return DefWindowProc(hwnd, uMsg, wParam, lParam);
         }
 
         return 0;
+    }
+
+    //Current Window Procedure
+    void Window::WindowMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+        if (uMsg == WM_CREATE) {
+            //Screen Width and Height
+            int screen_width = GetSystemMetrics(SM_CXSCREEN);
+            int screen_height = GetSystemMetrics(SM_CYSCREEN);
+
+            // Create the double buffer when the window is created
+            w_hdc_1 = CreateCompatibleDC(NULL);
+            w_hdc_2 = CreateCompatibleDC(NULL);
+            w_hbm_1 = CreateCompatibleBitmap(w_hdc_1, screen_width, screen_height);
+            w_hbm_2 = CreateCompatibleBitmap(w_hdc_2, screen_width, screen_height);
+        }
     }
 
     //Window Setup

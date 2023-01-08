@@ -25,6 +25,7 @@ namespace Orange {
 		void Resize(HWND hwnd);
 		HRESULT CreateFactory();
 		void ReleaseFactory();
+		void UpdateWindowDimensions(int _screen_width, int _screen_height);
 	};
 }
 

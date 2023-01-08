@@ -130,17 +130,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EntryPoint.cpp" />
+    <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="PointWindow.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="TimerManager.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="PointWindow.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="TimerManager.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

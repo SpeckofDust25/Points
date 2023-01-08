@@ -7,14 +7,16 @@ namespace Orange {
 	class Grid: public Renderer
 	{
 	public:
-		Grid();
+		Grid(int _width = 32, int _height = 32);
+
+	protected:
 		D2D1_COLOR_F line_color;
 		D2D1_COLOR_F point_color;
 		D2D1_COLOR_F background_color;		
 		std::vector<Line> lines;
 		std::vector<Circle> points;
 
-	private:
+	protected:
 		void AddLine(Line line);
 		void ClearGrid();
 

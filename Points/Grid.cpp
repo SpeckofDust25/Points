@@ -3,7 +3,7 @@
 namespace Orange {
 
 	//Constructor and Destructor
-	Grid::Grid() { 
+	Grid::Grid(int _width, int _height) {
 		line_color.r = 0.0f;
 		line_color.g = 0.0f;
 		line_color.b = 0.0f;
@@ -25,10 +25,11 @@ namespace Orange {
 		HRESULT hr = CreateGraphicsResource(hwnd);
 		if (SUCCEEDED(hr)) {
 			r_render_target->BeginDraw();
-
+			r_render_target->SetTransform(D2D1::Matrix3x2F::Translation(0, 0));
+			r_render_target->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
 			r_render_target->Clear(D2D1::ColorF(D2D1::ColorF::White));
 			GenerateGrid(32, 32);
-			
+
 			r_render_target->CreateSolidColorBrush(line_color, &r_brush);
 
 			for (int i = 0; i < lines.size(); i++) {
@@ -61,10 +62,7 @@ namespace Orange {
 		points.push_back(circle);
 	}
 
-	void Grid::ClearGrid() {
-		lines.clear();
-	}
-
+	//Generates Grid: Should Be Called Every WM_PAINT and Whenever The Matrix is Translated
 	void Grid::GenerateGrid(int grid_width, int grid_height) {
 		if (r_render_target != nullptr) {
 			D2D1_SIZE_F size = r_render_target->GetSize();
@@ -82,10 +80,13 @@ namespace Orange {
 				}
 
 				for (int i = 0; i < lines_vertical; i++) {	//Vertical
-					AddLine(Line{ 1, D2D_POINT_2F {(float)(grid_height * (i + 1)), 0}, D2D_POINT_2F {(float)(grid_height * (i + 1)), (float)screen_height}});
+					AddLine(Line{ 1, D2D_POINT_2F {(float)(grid_height * (i + 1)), 0}, D2D_POINT_2F {(float)(grid_height * (i + 1)), (float)screen_height} });
 				}
 			}
 		}
 	}
 
+	void Grid::ClearGrid() {
+		lines.clear();
+	}
 }

@@ -1,5 +1,2 @@
-﻿  Grid.cpp
-C:\Users\camer\Documents\C++ Projects\Points\Points\Grid.cpp(35,96): warning C4244: 'argument': conversion from 'double' to 'FLOAT', possible loss of data
-C:\Users\camer\Documents\C++ Projects\Points\Points\Grid.cpp(71,23): warning C4244: '=': conversion from 'FLOAT' to 'int', possible loss of data
-C:\Users\camer\Documents\C++ Projects\Points\Points\Grid.cpp(72,24): warning C4244: '=': conversion from 'FLOAT' to 'int', possible loss of data
+﻿  Window.cpp
   Points.vcxproj -> C:\Users\camer\Documents\C++ Projects\Points\Points\x64\Debug\Points.exe

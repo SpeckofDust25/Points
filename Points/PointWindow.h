@@ -1,6 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "Grid.h"
+#include "Input.h"
 
 //File
 #define ID_NEW 1
@@ -31,6 +32,21 @@ namespace Orange {
 		//~PointWindow();
 		LRESULT HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 		Grid grid;
+		Input input;
+		int paint = 0;
+
+
+	public:	//Called Every Frame
+		void Update();
+		void Draw();
+
+	public:	//Messages
+		LRESULT OnCreate(HWND hwnd, WPARAM wParam, LPARAM lParam) override;
+		LRESULT OnInput(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+		LRESULT OnSize(HWND hwnd, WPARAM wParam, LPARAM lParam) override;
+		LRESULT OnPaint(HWND hwnd, WPARAM wParam, LPARAM lParam) override;
+		LRESULT OnCommand(HWND hwnd, WPARAM wParam, LPARAM lParam) override;
+		LRESULT OnDestory(HWND hwnd, WPARAM wParam, LPARAM lParam) override;
 
 	private:
 		void SetupMenu(HWND hwnd);	//Called Before the Window gets created: Needs Window Handle to be passed

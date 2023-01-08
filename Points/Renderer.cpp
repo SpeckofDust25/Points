@@ -95,4 +95,9 @@ namespace Orange {
 			InvalidateRect(hwnd, NULL, FALSE);
 		}
 	}
+
+	void Renderer::UpdateWindowDimensions(int _screen_width, int _screen_height) {
+		screen_width = _screen_width;
+		screen_height = _screen_height;
+	}
 }

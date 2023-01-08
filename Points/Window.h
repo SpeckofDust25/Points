@@ -28,6 +28,9 @@ namespace Orange {
 		StateInfo* w_state = nullptr;//Window State Information
 		int w_width, w_height;		//Window width and height
 
+		HDC w_hdc_1, w_hdc_2;		//Window device contexts for screen buffer
+		HBITMAP w_hbm_1, w_hbm_2;	//Bitmap's for screen buffer
+
 	public:		//Window Creation
 		bool CreateMainWindow(int _width, int _height, int start_x, int start_y);
 		void CreateChildWindow(HWND hwnd, int _width, int _height, int start_x, int start_y);
@@ -35,8 +38,20 @@ namespace Orange {
 	public:		//Individual Window Procedure
 		virtual LRESULT HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
 
+		virtual LRESULT OnCreate(HWND hwnd, WPARAM wParam, LPARAM lParam) = 0;
+		virtual LRESULT OnInput(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
+		virtual LRESULT OnSize(HWND hwnd, WPARAM wParam, LPARAM lParam) = 0;
+		virtual LRESULT OnPaint(HWND hwnd, WPARAM wParam, LPARAM lParam) = 0;
+		virtual LRESULT OnCommand(HWND hwnd, WPARAM wParam, LPARAM lParam) = 0;
+		virtual LRESULT OnDestory(HWND hwnd, WPARAM wParam, LPARAM lParam) = 0;
+
+		
+				// Current Window Procedure
+		void WindowMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);	
+
 	private:	//Window Procedure: Window Handle, Message Code (Identify what type of message), wParam and lParam give extra data that pertain to the message 
 		static LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		
 
 		//Window Setup
 		void SetupWindowClassEx();
